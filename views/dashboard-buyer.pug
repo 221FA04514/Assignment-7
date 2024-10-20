@@ -1,0 +1,61 @@
+extends layout.pug
+
+block content
+  // Link to the buyer CSS
+  link(rel="stylesheet", href="/assects/css/buyer-dashboard.css")
+  
+  // Buyer Dashboard Content
+  h2#buyer-dashboard-title Buyer Dashboard
+  p#welcome-message Welcome, #{user.firstName}! Here you can search properties and view available listings.
+
+  //- Search Form
+  h3#search-properties-title Search Properties
+  form#search-form(method='get', action='/dashboard-buyer')
+    input(type='hidden', name='firstName', value='#{user.firstName}')
+    input(type='hidden', name='email', value='#{user.email}')
+    label(for='location') Location:
+    input#location-input(type='text', name='location')
+    br
+    label(for='budget') Budget:
+    input#budget-input(type='number', name='budget')
+    br
+    button#search-button(type='submit') Search
+
+  h3#available-properties-title Available Properties
+  if properties.length > 0
+    ul#properties-list
+      each property in properties
+        li.property-item
+          img.property-img(src=property.imageUrl, alt=`Image of ${property.title}`, width="200")
+          p.property-title #{property.title} - #{property.location} - $#{property.price}
+          p.property-info Seller Contact: #{property.sellerPhone}
+          a.chat-link(href=`/chat?sellerEmail=${property.sellerEmail}`) Chat with Seller
+  else
+    p No properties found.
+
+  // Edit Profile Modal
+  // (Already included in your existing template)
+  div#profileEditModal.modal.hidden
+    div.modal-content
+      span(class="close" onclick="closeProfileEditModal()") &times;
+      h2 Edit Profile
+      form#profileEditForm(method="POST", action="/updateProfile", enctype="multipart/form-data")
+        label(for="name") Name:
+        input(type="text" name="name" id="name" value=user.firstName required)
+        
+        label(for="email") Email:
+        input(type="email" name="email" id="email" value=user.email required)
+        
+        label(for="profilePicture") Profile Picture:
+        input(type="file" name="profilePicture" id="profilePicture")
+
+        button(type="submit") Save Changes
+
+  script.
+    function openProfileEditModal() {
+      document.getElementById('profileEditModal').classList.remove('hidden');
+    }
+
+    function closeProfileEditModal() {
+      document.getElementById('profileEditModal').classList.add('hidden');
+    }

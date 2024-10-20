@@ -1,0 +1,9 @@
+extends layout.pug
+
+block content
+    h1= property.name
+    img(src=`/assets/img/${property.image}`, alt=property.name)
+    p Location: #{property.location}
+    p Price: $#{property.price}
+    p Description: #{property.description}
+    a(href="/properties") Back to Listings

@@ -1,0 +1,33 @@
+extends layout.pug
+
+block content
+  section.registration-form
+    h2 Create an Account
+    // Display error message if it exists
+    if error
+      p.error-message(style="color: red;")= error
+    
+    form#registration-form(method="POST" action="/users/register")
+      label(for="first-name") First Name:
+      input#first-name(type="text" name="firstName" required)
+
+      label(for="last-name") Last Name:
+      input#last-name(type="text" name="lastName" required)
+
+      label(for="email") Email:
+      input#email(type="email" name="email" required)
+
+      label(for="phone") Phone Number:
+      input#phone(type="tel" name="phone" required)
+
+      label(for="password") Password:
+      input#password(type="password" name="password" required)
+
+      label(for="role") Register as:
+      select#role(name="role" required)
+        option(value="") Select Role
+        option(value="buyer") Buyer
+        option(value="seller") Seller
+        option(value="agent") Agent
+
+      button(type="submit" class="btn" id="buttoon") Register

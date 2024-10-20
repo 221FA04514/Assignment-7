@@ -1,0 +1,66 @@
+extends layout.pug
+
+block content
+  // Link to the agent CSS file
+  link(rel="stylesheet", href="/assects/css/agent-dashboard.css")
+
+  h2#agent-dashboard-title Agent Dashboard
+  p#welcome-message Welcome, #{user.firstName}! Manage your clients and properties below.
+
+  // Display Error Message
+  if error
+    p.error #{error}
+
+  // Tab Switch for Seller and Buyer Functions
+  div#section-switcher
+    button(type="button" onclick="showSection('link-buyers')") Link Buyers to Properties
+    button(type="button" onclick="showSection('available-properties')") View Available Properties
+    button(type="button" onclick="showSection('active-deals')") View Active Deals
+
+  // Link Buyers to Properties
+  div#link-buyers(style="display: none;")
+  h3 Link Buyers to Properties
+  if linkedBuyers && linkedBuyers.length > 0
+    form#link-buyers-form(action="/link-buyers", method="post")
+      select(name="buyerId")
+        each buyerId in linkedBuyers
+          option(value=buyerId) Buyer ID: #{buyerId}
+    select(name="propertyId")
+      each property in availableProperties
+        option(value=property.id) #{property.title} - #{property.location} - $#{property.price}
+    button(type="submit") Link Buyer
+  else
+    p No linked buyers.
+
+
+  // View Available Properties for Sale
+  div#available-properties(style="display: none;")
+    h3 Available Properties for Sale
+    if availableProperties.length > 0
+      ul#properties-list
+        each property in availableProperties
+          li #{property.title} - #{property.location} - $#{property.price}
+    else
+      p No properties available for sale.
+
+  // View Active Deals
+  div#active-deals(style="display: none;")
+    if activeDeals.length > 0
+      h3 Active Deals
+      ul#active-deals-list
+        each deal in activeDeals
+          li Deal between Buyer and Seller for property: #{deal.propertyId}
+    else
+      p No active deals.
+
+  
+  // JavaScript to switch between sections
+  script.
+    function showSection(section) {
+      document.getElementById('link-buyers').style.display = 'none';
+      document.getElementById('available-properties').style.display = 'none';
+      document.getElementById('active-deals').style.display = 'none';
+
+      document.getElementById(section).style.display = 'block';
+    }
+

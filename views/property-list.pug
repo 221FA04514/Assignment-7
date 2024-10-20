@@ -1,0 +1,11 @@
+extends layout.pug
+
+block content
+    h1 Property Listings
+    each property in properties
+        .property-card
+            h2= property.name
+            p Location: #{property.location}
+            p Price: $#{property.price}
+            img(src=`/assets/img/${property.image}`, alt=property.name)
+            a(href=`/properties/${property.id}`) View Details

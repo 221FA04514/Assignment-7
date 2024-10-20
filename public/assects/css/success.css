@@ -1,0 +1,50 @@
+.success-container {
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    border-top: 8px solid #D91656; /* Pinkish Red top border */
+}
+
+.success-container .success-icon {
+    font-size: 50px;
+    color: #640D5F; /* Dark Purple */
+    margin-bottom: 20px;
+}
+
+.success-container h1 {
+    font-size: 32px;
+    color: #640D5F; /* Dark Purple */
+}
+
+.success-container p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.success-container .offer-text {
+    font-size: 16px;
+    color: #D91656; /* Pinkish Red */
+    font-weight: bold;
+}
+
+.success-container .subscribe-btn {
+    padding: 12px 30px;
+    background-color: #D91656; /* Pinkish Red button */
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.success-container .subscribe-btn:hover {
+    background-color: #640D5F; /* Dark Purple on hover */
+}

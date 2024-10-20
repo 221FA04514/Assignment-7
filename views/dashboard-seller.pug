@@ -1,0 +1,72 @@
+extends layout.pug
+
+block content
+  link(rel="stylesheet", href="/assects/css/seller-dashboard.css")
+  
+  //- Profile Section
+  div#profile-section
+    img.profile-pic(src=user.profilePicture || '/img/default-profile.png', alt='Profile Picture', style='cursor:pointer;')
+    h2#seller-dashboard-title Seller Dashboard
+    p#welcome-message Welcome, #{user.firstName}! Here you can manage your properties and add new listings.
+
+  //- Edit Profile Overlay (Hidden by Default)
+  div#edit-profile-overlay.overlay.hidden
+    .overlay-content
+      h2 Edit Profile
+      form#edit-profile-form(method='post', enctype='multipart/form-data')
+        label(for='firstName') First Name:
+        input#firstName(type='text', name='firstName', value=user.firstName, required)
+        br
+        label(for='lastName') Last Name:
+        input#lastName(type='text', name='lastName', value=user.lastName, required)
+        br
+        label(for='contact') Phone:
+        input#contact(type='text', name='contact', value=user.contact || '', required)
+        br
+        label(for='profilePicture') Profile Picture:
+        input#profilePicture(type='file', name='profilePicture')
+        br
+        button(type='submit') Save Changes
+      button.close-overlay(type='button') Close
+
+  //- List Seller's Properties
+  h3#your-properties-title Your Properties
+  if properties.length > 0
+    ul#properties-list
+      each property in properties
+        li.property-card
+          img(src=property.imageUrl, alt=`Image of ${property.title}`, width="200")
+          p.property-title #{property.title}
+          p.property-info #{property.location} - $#{property.price}
+  else
+    p No properties found.
+
+  //- Add New Property Form
+  h3#add-property-title Add a New Property
+  form#add-property-form(method='post', action='/properties/add')
+    input(type='hidden', name='sellerEmail', value=user.email)
+    input(type='hidden', name='sellerContact', value=user.contact || '')
+    label(for='title') Title:
+    input#property-title(type='text', name='title', required)
+    br
+    label(for='location') Location:
+    input#property-location(type='text', name='location', required)
+    br
+    label(for='price') Price:
+    input#property-price(type='number', name='price', required)
+    br
+    label(for='imageUrl') Image URL:
+    input#property-image-url(type='url', name='imageUrl', required)
+    br
+    button#add-property-button(type='submit') Add Property
+
+  script.
+    // Show overlay when profile pic is clicked
+    document.querySelector('.profile-pic').addEventListener('click', function() {
+      document.getElementById('edit-profile-overlay').classList.remove('hidden');
+    });
+
+    // Close overlay when close button is clicked
+    document.querySelector('.close-overlay').addEventListener('click', function() {
+      document.getElementById('edit-profile-overlay').classList.add('hidden');
+    });

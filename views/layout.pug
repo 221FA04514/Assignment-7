@@ -1,0 +1,65 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title #{title} - Real Estate Finder
+    link(rel="stylesheet", href="/assects/css/style.css")
+    link(href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet')
+
+  body
+    //- Header (common for all pages)
+    header
+      img(src="/assects/img/logo.jpeg" alt="Logo" class="logo-img")
+      .logo
+      h1 ROYAL SANCTUARY ESTATES
+      nav
+        ul
+          if user && user.firstName
+            li
+              a(href="/") Home
+            li
+              a(href="/logout") Logout
+            li
+              // Self-closing image tag with correct syntax
+              img(src=user.profilePicture || "/img/default-profile.png", alt="Profile Picture", class="profile-pic", onclick="openProfileEditModal()")
+              span.welcome-message Welcome, #{user.firstName}!
+          else
+            li
+              a(href="/") Home
+            li
+              a(href="/aboutus") About Us
+            li
+              a(href="/login") Login
+            li
+              a(href="/register") Register
+
+    //- Main content area where different page content will be rendered
+    block content
+
+    //- Footer section
+    footer
+      .footer-container
+        .footer-section
+          h3 Company Info
+          p Royal Estates is a leading real estate agency offering top-notch services.
+        .footer-section
+          h3 Quick Links
+          ul
+            li
+              a(href="#") Home
+            li
+              a(href="#") About Us
+        .footer__socials
+          a(href="mailto:ravitejavaka81@gmail.com")
+            i(class='bx bxl-gmail')
+          a(href="https://github.com/221FA04514")
+            i(class='bx bxl-github')
+          a(href="#")
+            i(class='bx bxl-linkedin')
+          a(href="#")
+            i(class='bx bxl-instagram')
+          a(href="#")
+            i(class="ri-dribbble-line")
+
+    script(src="/public/assects/js/script.js")

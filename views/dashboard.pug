@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    link(rel='stylesheet', href='/assects/css/dashboard.css')
+    h1 Dashboard Overview
+    main
+        h2 Summary
+        p Total Registered Users: #{totalUsers}
+        p Total Registered Buildings: #{totalListings}
+
+        .summary
+            .summary-item
+                img(src='/assects/img/seller.jpg', alt='Seller Logo', class='profile-pic')
+                p Number of Sellers: #{numberOfSellers}
+            .summary-item
+                img(src='assects/img/buyer.jpg', alt='Buyer Logo', class='profile-pic')
+                p Number of Buyers: #{numberOfBuyers}
+            .summary-item
+                img(src='assects/img/agent.jpg', alt='Agent Logo', class='profile-pic')
+                p Number of Agents: #{numberOfAgents}

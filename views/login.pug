@@ -1,0 +1,17 @@
+extends layout.pug
+
+block content
+  section.login-form
+    h2 Login
+    // Display error message if it exists
+    if error
+      p.error-message(style="color: red;")= error
+    
+    form#login-form(method="POST" action="/users/login")
+      label(for="email") Email:
+      input#email(type="email" name="email" required)
+
+      label(for="password") Password:
+      input#password(type="password" name="password" required)
+
+      button(type="submit" class="btn" id="buttoon") Login 

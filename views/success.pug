@@ -1,0 +1,27 @@
+extends layout.pug
+
+block content
+  section.success-container
+    h2 Registration Successful
+    p Your account has been created successfully!
+    // Show a tick mark (you can use a font icon or an image)
+    p.success-icon ✔️
+    
+    // Welcome message using the first name
+    if firstName
+      p Welcome, #{firstName}!
+
+    p Redirecting to login page in <span id="countdown">5</span> seconds...
+
+  script.
+    // Countdown script
+    let countdown = 5;
+    const countdownElement = document.getElementById('countdown');
+    const interval = setInterval(() => {
+      countdown -= 1;
+      countdownElement.textContent = countdown;
+      if (countdown <= 0) {
+        clearInterval(interval);
+        window.location.href = '/login'; // Change this URL to your login page
+      }
+    }, 1500); // Adjusted to 1000ms for a 5-second countdown
