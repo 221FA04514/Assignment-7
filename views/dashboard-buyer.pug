@@ -33,24 +33,6 @@ block content
   else
     p No properties found.
 
-  // Edit Profile Modal
-  // (Already included in your existing template)
-  div#profileEditModal.modal.hidden
-    div.modal-content
-      span(class="close" onclick="closeProfileEditModal()") &times;
-      h2 Edit Profile
-      form#profileEditForm(method="POST", action="/updateProfile", enctype="multipart/form-data")
-        label(for="name") Name:
-        input(type="text" name="name" id="name" value=user.firstName required)
-        
-        label(for="email") Email:
-        input(type="email" name="email" id="email" value=user.email required)
-        
-        label(for="profilePicture") Profile Picture:
-        input(type="file" name="profilePicture" id="profilePicture")
-
-        button(type="submit") Save Changes
-
   script.
     function openProfileEditModal() {
       document.getElementById('profileEditModal').classList.remove('hidden');

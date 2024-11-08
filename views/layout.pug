@@ -22,7 +22,7 @@ html(lang="en")
               a(href="/logout") Logout
             li
               // Self-closing image tag with correct syntax
-              img(src=user.profilePicture || "/img/default-profile.png", alt="Profile Picture", class="profile-pic", onclick="openProfileEditModal()")
+              img(src=user.profilePicture || "/img/profile.png", alt="Profile Picture", class="profile-pic", onclick="openProfileEditModal()")
               span.welcome-message Welcome, #{user.firstName}!
           else
             li

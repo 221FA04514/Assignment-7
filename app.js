@@ -166,15 +166,28 @@ app.get('/dashboard-buyer', async (req, res) => {
 
 // Seller Dashboard
 app.get('/dashboard-seller', async (req, res) => {
+    // Check if the user is logged in and has the 'seller' role
     if (!req.session.user || req.session.user.role !== 'seller') {
         return res.redirect('/login');
     }
 
     const sellerEmail = req.session.user.email;
-    const sellerProperties = await Property.find({ sellerEmail });
+    
+    try {
+        // Fetch seller's properties from the database using the seller's email
+        const sellerProperties = await Property.find({ sellerEmail });
 
-    res.render('dashboard-seller', { user: req.session.user, properties: sellerProperties });
+        // Render the seller dashboard and pass the user data and properties (including image URLs)
+        res.render('dashboard-seller', { 
+            user: req.session.user, 
+            properties: sellerProperties
+        });
+    } catch (error) {
+        console.error('Error fetching seller properties:', error);
+        res.status(500).send('Error fetching properties');
+    }
 });
+
 
 // Agent Dashboard
 // Agent Dashboard
@@ -193,33 +206,27 @@ app.get('/dashboard-agent', async (req, res) => {
     });
 });
 
-app.post('/properties/add', upload.single('propertyImage'), async (req, res) => {
-    const { title, location, price } = req.body;
-    let imageUrl = null;
-
-    if (req.file) {
-        imageUrl = `/assets/img/${req.file.filename}`;
-        console.log('Uploaded Image URL:', imageUrl); // Check if image URL is generated correctly
-    } else {
-        console.log('No file uploaded.'); // Check if no file was uploaded
-    }
-
-    const sellerEmail = req.session.user.email;
-    const newProperty = new Property({
-        title,
-        location,
-        price,
-        imageUrl, // Ensure this is set correctly
-        sellerEmail
-    });
-
+app.post('/properties/add', async (req, res) => {
+    console.log('Received Data:', req.body);  // Check the form data
+    
     try {
+        const { title, location, price, imageUrl, sellerEmail } = req.body;
+
+        // Create and save the property
+        const newProperty = new Property({
+            title,
+            location,
+            price,
+            imageUrl, // Ensure imageUrl is passed correctly
+            sellerEmail
+        });
+
         await newProperty.save();
-        console.log('Saved Property:', newProperty); // Log saved property
+
         res.redirect('/dashboard-seller');
     } catch (error) {
-        console.error('Error adding property:', error);
-        res.render('dashboard-seller', { error: 'An error occurred while adding the property.' });
+        console.error('Error saving property:', error);
+        res.status(500).send('Error saving property');
     }
 });
 
